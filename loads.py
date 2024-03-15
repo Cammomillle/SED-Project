@@ -45,6 +45,7 @@ def plot_geometry(Lx,Ly,Lz,a_v,b_v,a_t,b_t):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     ax.voxels(data, facecolors='white', edgecolors='grey')
+    plt.show()
     
 if __name__=="__main__":
     V_struct,m_tot_struct,I_bending,y_max=define_geometry(Lx,Ly,Lz,a_v,b_v,a_t,b_t)
