@@ -1,6 +1,6 @@
 #This text defines the different components of the satellite ! 3 small unphysical examples are provided just to test 
-# Order : Name weight cg_location x_size y_size z_size color
+# Order : Name weight cg_location from (0,0,0) x_size y_size z_size color ALL SIZES IN M
 
-Battery 10 4 4 4 2 3 1 red
-Mirror  20 2 1 3 1 1 1 blue
-Thurster 5 6 6 2 1 2 1 green
+Battery 10 0.1 0.1 0.1 0.2 0.2 0.1 red
+Mirror  20 0.3 0.1 0.2 0.1 0.1 0.1 blue
+Thurster 5 0.2 0.2 0.2 0.1 0.2 0.1 green
