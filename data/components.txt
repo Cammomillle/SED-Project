@@ -1,6 +1,10 @@
 #This text defines the different components of the satellite ! 3 small unphysical examples are provided just to test 
-# Order : Name weight cg_location from (0,0,0) x_size y_size z_size color ALL SIZES IN M
-
-Battery 10 0.1 0.1 0.1 0.2 0.2 0.1 red
-Mirror  20 0.3 0.1 0.2 0.1 0.1 0.1 blue
-Thurster 5 0.2 0.2 0.2 0.1 0.2 0.1 green
+#SIZES IN CM !!!!!
+# boxes: Name weight cg_location from (0,0,0) x_size y_size z_size color box 
+# cylinders: Name weight cg_location from (0,0,0) length radius 0 color cylinder
+# pannels: weight/m^2 faces_concerned (eg [XZ1,XZ2,YZ1,YZ2]) number_of_hinges tickness color is_deployed? / pannels  
+Battery 0.95 5 5 5 6.7 6.7 6.7 red box
+UV_detector 3.86 20 10 10 15.1 15.24 15.24 limegreen box
+SXR_detector 1 20 20 20 5.22 1.098 3.735 purple box
+Optical 10 15 15 40 20 5 0 orange cylinder
+Solar Pannels 2.8 [XZ1,XZ2,YZ1,YZ2] 2 2 midnightblue True / pannels     # It's 2.8 kg per m^2 installed !
