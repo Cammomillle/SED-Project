@@ -5,7 +5,6 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import matplotlib.patches as mpatches
 from matplotlib.lines import Line2D
 from mpl_toolkits.mplot3d.art3d import Line3DCollection
-import pandas as pd
 from mpl_toolkits.mplot3d import art3d
 plt.close()
 class box():
@@ -141,6 +140,7 @@ class pannels():
                 b=l[1]
                 c=l[2]
                 weight=self.weight_per_m2*self.number_of_hinges*s
+                print("weight",weight)
                 self.boxes_tab.append(box(P0,a,b,c,None,weight,self.col))
     def plot(self,ax):
         for b in self.boxes_tab:
@@ -266,12 +266,21 @@ class grid():
         Ixx=1/12*self.weight*(self.z_size**2+self.y_size**2) 
         Iyy=1/12*self.weight*(self.x_size**2+self.z_size**2)
         Izz=1/12*self.weight*(self.y_size**2+self.x_size**2)
-        I=np.matrix([[Ixx,0,0],[0,Iyy,0],[0,0,Izz]]) #Diagonal because in the main inertia axis of the parallelepiped 
-        return I
+        J=np.matrix([[Ixx,0,0],[0,Iyy,0],[0,0,Izz]]) #Diagonal because in the main inertia axis of the parallelepiped 
+        CG=np.array(self.center_of_mass())
+        for b in self.components:
+            try:
+              for b2 in b.boxes_tab:
+                    P0=b2.P0
+                    R=np.abs(CG-P0)
+                    J=J+b2.inertia_matrix()+b2.weight*(R @ R- np.outer(R,R))
+            except:
+                continue
+        return J
 x_size=0.3
 y_size=0.3
 z_size=0.5
-fact=2
+fact=2.5
 x_lims=[-fact*x_size+x_size/2,fact*x_size+x_size/2]
 y_lims=[-fact*y_size+y_size/2,fact*y_size+y_size/2]
 z_lims=[0,2*z_size]
@@ -281,5 +290,6 @@ g.plot()
 g.define_structure(x_size,y_size,z_size)
 plt.savefig("mecha_design.pdf",bbox_inches='tight')
 print("Inertia matrix J \n",g.inertia_matrix(),"m^2.kg")
+print("CG",g.center_of_mass())
 print("Approx inertia   \n",g.approx_inertia(),"m^2.kg")
 plt.show()
