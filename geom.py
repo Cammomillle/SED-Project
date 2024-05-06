@@ -80,8 +80,8 @@ class cylinder():
             Z[i] = np.repeat(z[i], size_xy)
             i = i+1
         ax.plot_surface(X, Y, Z,alpha=0.5,color=self.col)
-        p = mpatches.Circle((self.P0[0],self.P0[1]),radius=self.radius,color=self.col)
-        p2 = mpatches.Circle((self.P0[0],self.P0[1]),radius=self.radius,color=self.col)
+        p = mpatches.Circle((self.P0[0],self.P0[1]),radius=self.radius,color=self.col,alpha=0.5)
+        p2 = mpatches.Circle((self.P0[0],self.P0[1]),radius=self.radius,color=self.col,alpha=0.5)
         ax.add_patch(p)
         ax.add_patch(p2)
         art3d.pathpatch_2d_to_3d(p, z=self.P0[2]-self.length/2, zdir="z")
@@ -253,15 +253,19 @@ class grid():
         return J
     def plot(self): #Plots all boxes on the grid
         handles=[]
+        color_list=[]
         for b in self.components:
             patch = mpatches.Patch(color=b.col, label=b.name)
-            handles.append(patch)
             b.plot(self.ax)
+            if b.col in color_list:
+                continue
+            color_list.append(b.col)
+            handles.append(patch)
         CG=self.center_of_mass()
         self.ax.scatter(CG[0],CG[1],CG[2],label="CG",color="black")
         patch=Line2D([0], [0], marker='o', color='w', label='CG',markerfacecolor="black", markersize=9)
         handles.append(patch)
-        plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.17),ncol=3, fancybox=True, shadow=True,fontsize=11,handles=handles)
+        plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.17),ncol=4, fancybox=True, shadow=True,fontsize=11,handles=handles)
     def approx_inertia(self):
         Ixx=1/12*self.weight*(self.z_size**2+self.y_size**2) 
         Iyy=1/12*self.weight*(self.x_size**2+self.z_size**2)
