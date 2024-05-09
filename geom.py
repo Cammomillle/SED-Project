@@ -94,10 +94,12 @@ class pannels():
         self.number_of_hinges=number_of_hinges
         self.tickness=tickness
         self.col=color
-        P1=[x_size/2,0,z_size/2]
-        P2=[x_size/2,y_size,z_size/2]
-        P3=[0,y_size/2,z_size/2]
-        P4=[x_size,y_size/2,z_size/2]
+        z_size=0.5*2/3
+        z_cool=0
+        P1=[x_size/2,0,z_cool+z_size/2]
+        P2=[x_size/2,y_size,z_cool+z_size/2]
+        P3=[0,y_size/2,z_cool+z_size/2]
+        P4=[x_size,y_size/2,z_cool+z_size/2]
         if("{0}".format(is_deployed)=="True"):
             P1=[x_size/2,-self.number_of_hinges*z_size/2,z_size]
             P2=[x_size/2,y_size+self.number_of_hinges*z_size/2,z_size]
@@ -116,31 +118,29 @@ class pannels():
             length2=[length2[0],self.number_of_hinges*length2[2],length2[1]]
             length3=[self.number_of_hinges*length3[2],length3[1],length3[0]]
             length4=[self.number_of_hinges*length4[2],length4[1],length4[0]]
-        if "{0}".format(self.Faces_concerned)=="[XZ1,XZ2,YZ1,YZ2]":
+        if "{0}".format(self.Faces_concerned)=="[XZ1 XZ2 YZ1 YZ2]":
             Surface_tot=self.number_of_hinges*(S1+S2+S3+S4)
             self.surfaces_mid=[P1,P2,P3,P4]
             self.surf=[S1,S2,S3,S4]
             self.lengths=[length1,length2,length3,length4]
-        if "{0}".format(self.Faces_concerned)=="[XZ1,XZ2]":
+        if "{0}".format(self.Faces_concerned)=="[XZ1 XZ2]":
             Surface_tot=self.number_of_hinges*(S1+S2)
             self.surfaces=[P1,P2]
             self.surf=[S1,S2]
             self.lengths=[length1,length2]
-        if "{0}".format(self.Faces_concerned)=="[YZ1,YZ2]":
+        if "{0}".format(self.Faces_concerned)=="[YZ1 YZ2]":
             Surface_tot=self.number_of_hinges*(S3+S4)
             self.surfaces=[P3,P4]
             self.surf=[S3,S4]
             self.lengths=[length3,length4]
         self.surface_tot=Surface_tot
         print("Installed array surface",self.surface_tot,"[m]")
-        self.weight=weight*Surface_tot
         self.boxes_tab=[]
         for P0,s,l in zip(self.surfaces_mid,self.surf,self.lengths):
                 a=l[0]
                 b=l[1]
                 c=l[2]
                 weight=self.weight_per_m2*self.number_of_hinges*s
-                print("weight",weight)
                 self.boxes_tab.append(box(P0,a,b,c,None,weight,self.col))
     def plot(self,ax):
         for b in self.boxes_tab:
@@ -149,22 +149,29 @@ class pannels():
             
             
 class grid():
-    def __init__(self,x_lims,y_lims,z_lims,x_size,y_size,z_size,m_approx): #Constructor of the grid x_lims,y_lims,z_lims are array such as [0,10] to limit the grid space
-        ax=plt.subplot(111,projection='3d')
-        ax.grid(visible=True)
-        ax.set_xlim(x_lims[0],x_lims[1])
-        ax.set_ylim(y_lims[0],y_lims[1])
-        ax.set_zlim(z_lims[0],z_lims[1])
-        ax.set_xlabel("x [m]")
-        ax.set_ylabel("y [m]")
-        ax.set_zlabel("z [m]")
-        x_ticks=np.arange(x_lims[0],x_lims[1]+0.01,0.1)
-        y_ticks=np.arange(y_lims[0],y_lims[1]+0.01,0.1)
-        z_ticks=np.arange(z_lims[0],z_lims[1]+0.01,0.1)
-        #ax.set_yticks(y_ticks)
-        #ax.set_xticks(x_ticks)
-        #ax.set_zticks(z_ticks)
+    def __init__(self,fig,ax,x_lims,y_lims,z_lims,x_size,y_size,z_size,m_approx): #Constructor of the grid x_lims,y_lims,z_lims are array such as [0,10] to limit the grid space
+        for ax1 in ax:
+            ax1.set_facecolor('white')
+            ax1.grid(visible=False)
+            ax1.set_xlim(x_lims[0],x_lims[1])
+            ax1.set_ylim(y_lims[0],y_lims[1])
+            ax1.set_zlim(z_lims[0],z_lims[1])
+            ax1.set_xlabel(r"x [$cm$]",fontsize=13)
+            ax1.set_ylabel(r"y [$cm$]",fontsize=13)
+            ax1.set_zlabel(r"z [$cm$]",fontsize=13)
+            ax1.set_box_aspect([1,1,1])
+            x_ticks=[0,0.1,0.2,0.3]
+            y_ticks=[0,0.1,0.2,0.3]
+            z_ticks=[0,0.1,0.2,0.3,0.4,0.5]
+            ax1.set_yticks(y_ticks)
+            ax1.set_xticks(x_ticks)
+            ax1.set_zticks(z_ticks)
+            ax1.set_yticklabels(x_ticks,fontsize=13)
+            ax1.set_xticklabels(y_ticks,fontsize=13)
+            ax1.set_zticklabels(z_ticks,fontsize=13)
+            ax1.set_axis_off()
         self.ax=ax
+        self.fig=fig
         self.components=[]
         self.x_size=x_size
         self.y_size=y_size
@@ -173,9 +180,9 @@ class grid():
     def add_box(self,box_obj): #To add some boxes manually
         self.components.append(box_obj)
     def add_objects_from_txt(self,file_name): #Adds boxes defined in "components.txt" 
-        txt=np.genfromtxt(file_name,dtype=str)
+        txt=np.genfromtxt(file_name,dtype=str,delimiter=',')
         for t in txt:
-            if("{0}".format(t[9])=="box"):
+            if(t[9]=="box"):
                 name=t[0]
                 weight=np.float64(t[1])
                 P0=[np.float64(t[2])/100,np.float64(t[3])/100,np.float64(t[4])/100]
@@ -205,7 +212,6 @@ class grid():
                 is_deployed=t[7]
                 self.components.append(pannels(weight,Faces_concerned,number_of_hinges,tickness,color,is_deployed))
     def define_structure(self,x_size,y_size,z_size):
-        ax=self.ax
         P0=(0,0,0)
         P1=(x_size,0,0)
         P2=(0,y_size,0)
@@ -215,8 +221,9 @@ class grid():
         P6=(x_size,y_size,0)
         P7=(0,y_size,z_size)
         segments=[[P0,P1],[P0,P2],[P0,P3],[P3,P4],[P1,P6],[P6,P5],[P5,P7],[P2,P7],[P1,P4],[P4,P5],[P7,P3],[P2,P6]]
-        lines=Line3DCollection(segments,color="black")
-        ax.add_collection3d(lines)
+        for ax in self.ax:
+            lines=Line3DCollection(segments,color="black")
+            ax.add_collection3d(lines)
         
     def center_of_mass(self):
         CG=[0,0,0]
@@ -225,6 +232,7 @@ class grid():
         for b in self.components:
             try:
                 for b2 in b.boxes_tab:
+                    w_tot=w_tot+b2.weight
                     x_cg=x_cg+b2.P0[0]*b2.weight
                     y_cg=y_cg+b2.P0[1]*b2.weight
                     z_cg=z_cg+b2.P0[2]*b2.weight
@@ -236,6 +244,7 @@ class grid():
         CG[0]=x_cg/w_tot
         CG[1]=y_cg/w_tot
         CG[2]=z_cg/w_tot
+        print("total weight",w_tot)
         return CG
     def inertia_matrix(self):
         J=np.zeros((3,3))
@@ -245,27 +254,29 @@ class grid():
               for b2 in b.boxes_tab:
                     P0=b2.P0
                     R=np.abs(CG-P0)
-                    J=J+b2.inertia_matrix()+b2.weight*(R @ R- np.outer(R,R))
+
+                    J=J+b2.inertia_matrix()+b2.weight*(R @ R *np.eye(3) - np.outer(R,R))
             except:
               P0=b.P0
               R=np.abs(CG-P0)
-              J=J+b.inertia_matrix()+b.weight*(R @ R- np.outer(R,R)) #J=I+m*(RRI-tensorial_prod(R,R))
+              J=J+b.inertia_matrix()+b.weight*(R @ R * np.eye(3)- np.outer(R,R)) #J=I+m*(RRI-tensorial_prod(R,R))
         return J
     def plot(self): #Plots all boxes on the grid
-        handles=[]
-        color_list=[]
-        for b in self.components:
+        for ax in self.ax:
+          handles=[]
+          color_list=[]
+          for b in self.components:
             patch = mpatches.Patch(color=b.col, label=b.name)
-            b.plot(self.ax)
+            b.plot(ax)
             if b.col in color_list:
                 continue
             color_list.append(b.col)
             handles.append(patch)
-        CG=self.center_of_mass()
-        self.ax.scatter(CG[0],CG[1],CG[2],label="CG",color="black")
+          #CG=self.center_of_mass()
+        """self.ax.scatter(CG[0],CG[1],CG[2],label="CG",color="black")
         patch=Line2D([0], [0], marker='o', color='w', label='CG',markerfacecolor="black", markersize=9)
-        handles.append(patch)
-        plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.17),ncol=4, fancybox=True, shadow=True,fontsize=11,handles=handles)
+        handles.append(patch)"""
+        return handles
     def approx_inertia(self):
         Ixx=1/12*self.weight*(self.z_size**2+self.y_size**2) 
         Iyy=1/12*self.weight*(self.x_size**2+self.z_size**2)
@@ -277,23 +288,34 @@ class grid():
               for b2 in b.boxes_tab:
                     P0=b2.P0
                     R=np.abs(CG-P0)
-                    J=J+b2.inertia_matrix()+b2.weight*(R @ R- np.outer(R,R))
+                    J=J+b2.inertia_matrix()+b2.weight*(R @ R *np.eyes(3) - np.outer(R,R))
             except:
                 continue
         return J
 x_size=0.3
 y_size=0.3
 z_size=0.5
-fact=2.5
+fact=1
 x_lims=[-fact*x_size+x_size/2,fact*x_size+x_size/2]
 y_lims=[-fact*y_size+y_size/2,fact*y_size+y_size/2]
 z_lims=[0,2*z_size]
-g=grid(x_size=x_size,y_size=y_size,z_size=z_size,x_lims=x_lims,y_lims=y_lims,z_lims=z_lims,m_approx=100)
-g.add_objects_from_txt("./data/components.txt")
-g.plot()
-g.define_structure(x_size,y_size,z_size)
-plt.savefig("mecha_design.pdf",bbox_inches='tight')
-print("Inertia matrix J \n",g.inertia_matrix(),"m^2.kg")
-print("CG",g.center_of_mass())
-print("Approx inertia   \n",g.approx_inertia(),"m^2.kg")
+"""x_lims=[0,x_size]
+y_lims=[0,y_size]
+z_lims=[0,z_size]"""
+fig = plt.figure(figsize=plt.figaspect(0.5))
+ax1 = fig.add_subplot(1, 2, 1, projection='3d')
+ax2 = fig.add_subplot(1, 2, 2, projection='3d')
+#ax3 = fig.add_subplot(1, 3, 3, projection='3d')
+ax2.view_init(90,-90,0)
+#ax3.view_init(0,180,0)
+g1=grid(fig,ax=[ax1,ax2],x_size=x_size,y_size=y_size,z_size=z_size,x_lims=x_lims,y_lims=y_lims,z_lims=z_lims,m_approx=23.576)
+g1.add_objects_from_txt("./data/components.txt")
+handles=g1.plot()
+plt.legend(loc='upper center', bbox_to_anchor=(0, 1.4),ncol=4, fancybox=True, shadow=True,fontsize=13,handles=handles)
+g1.define_structure(x_size,y_size,z_size)
+plt.savefig("mecha_design_solar_pan.svg",bbox_inches='tight')
+print("Inertia matrix J \n",g1.inertia_matrix(),"m^2.kg")
+print("CG",g1.center_of_mass())
+print("Approx inertia   \n",g1.approx_inertia(),"m^2.kg")
+
 plt.show()

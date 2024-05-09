@@ -1,19 +1,18 @@
 import numpy as np
 from matplotlib import pyplot as plt 
 from matplotlib.patches import Rectangle
-m_tot=100    
+m_tot=28  
 g=9.81
 numb_g=10
-n_x,n_y,n_z=4,4,3
-Lx=0.1*n_x
-Ly=0.1*n_y
-Lz=0.1*n_z
-a_v=0.01
-b_v=0.01
-a_t=0.015
-b_t=0.015
+Lx=0.3
+Ly=0.3
+Lz=0.5
+a_v=0.015
+b_v=0.015
+a_t=0.005
+b_t=0.005
 rho=2700 #kg/m^3 assuming aluminium !
-E=70*10**9 #Young modulus in GPA
+E=90*10**9 #Young modulus in GPA
 print("Total volume",Lx*Ly*Lz*10**6)
 def compute_loads(V_struct,Lx,Ly,Lz,m_tot,numb_g,y_max,I_bending,I_v,A_v,A_t):
     F=m_tot*g*numb_g
@@ -21,7 +20,7 @@ def compute_loads(V_struct,Lx,Ly,Lz,m_tot,numb_g,y_max,I_bending,I_v,A_v,A_t):
     gamma=F/V_struct
     print("volumic force",gamma,"N/m^3")
     "Force verticale"
-    F_v_axial=gamma*((A_v)*Lz+1/4*((2*A_t)*Ly+(2*A_t)*Lx))
+    F_v_axial=numb_g*g*m_tot/4
     print("Vertical Force",F_v_axial,"N")
     sigma_v=F_v_axial/A_v
     "Bending"
@@ -41,7 +40,7 @@ def compute_loads(V_struct,Lx,Ly,Lz,m_tot,numb_g,y_max,I_bending,I_v,A_v,A_t):
 def define_geometry(Lx,Ly,Lz,a_v,b_v,a_t,b_t):
     A_v=a_v*b_v
     A_t=a_t*b_t
-    V_struct=(4*A_v*Lx+4*A_t*Ly+4*A_t*Lz)
+    V_struct=(4*A_v*Lz+4*A_t*Ly+4*A_t*Lx)
     m_tot_struct=rho*V_struct
     I_bending=a_t**3*b_t/12 #rectangular section
     I_v=a_v**3*b_t/12
