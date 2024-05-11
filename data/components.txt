@@ -5,38 +5,45 @@
 # pannels: weight/m^2 faces_concerned (eg [XZ1,XZ2,YZ1,YZ2]) number_of_hinges tickness color is_deployed? / pannels  
 #Orbit and Power :
 
-Battery,2,5,25,46,6.7,6.7,6.7,red,box
+Battery,2,15,20,46,6.7,6.7,6.7,red,box
 Solar,Pannels,2.8,[XZ1 XZ2 YZ1 YZ2],1,2,midnightblue,True,/,pannels     # It's 2.8 kg per m^2 installed !
-Thruster and nozzle,0.04,15,20,6,2.8,19.5,2.8,grey,box
-Thruster nozzle,0.025,15,15,3,5,1.65,0,grey,cylinder
-Fuel tanks,3,6,5,35,10,8,30,black,box
-Fuel tank2,5.4,24.5,21,35,11,16,30,black,box
+Thruster and nozzle,0.04,17,20,6,2.8,19.5,2.8,grey,box
+Thruster nozzle,0.025,17,15,3,5,1.65,0,grey,cylinder
+Fuel tanks,3,15,6,35,30,8,10,black,box
+Fuel tanks2,5.4,24.5,21,30,11,16,30,black,box
 
 #Detectors :
 
-Camera,2.9,6.8,15,5.4,13.1,15.2,9.5,purple,box
-Camera,2.9,23,8,5.4,13.1,15.2,9.5,purple,box
+Camera,2.9,7.6,8.45,5.4,15.2,13.1,9.5,purple,box
+Camera,2.9,7.6,21.55,5.4,15.2,13.1,9.5,purple,box
 Data storage,0.5,10,23,22,9.9,3.3,9.8,blueviolet,box
 
 #Optics :
 
-EHTAC,1.75,6.8,15,30,40,5,0,orange,cylinder 
-ELTeQC,1.75,23,8,30,40,5,0,blue,cylinder  
+EHTAC,1.75,6.8,15,30,40,5,0,gold,cylinder 
 
 #ADCS : 
 
-Star trackers,0.035,10,28,48,2,2,4,tan,box
-Star tracker,0.035,28,2,48,2,2,4,tan,box
+Star trackers,0.270,10,27,45,5,4.4,9.5,tan,box 
+Star trackers,0.270,18,3,45,5,4.4,9.5,tan,box
+Gyroscope,0.150,25,5,5,2.1,6.5,8.8,orange,box
 Sun sensor,0.050,15,20,49.1,4.6,5,1.7,olivedrab,box
-Magnetometer,0.085,15,0.9,20,4.3,1.7,9.9,blue,box
+Magnetometers,0.085,9,0.9,5,4.3,1.7,9.9,blue,box
 
+#Actuators
 
+Magnetorquers,0.060,6,1,25,13.2,1.35,1.35,cyan,box
+Magnetorquers,0.060,10,27,25,13.2,1.35,1.35,cyan,box
+Reaction wheels,0.330,13,15,25,2.5,7,7,limegreen,box
+Reaction wheels,0.330,17,15,25,2.5,7,7,limegreen,box
+Reaction wheels,0.330,15,10,25,7,2.5,7,limegreen,box
+Reaction wheels,0.330,15,20,25,7,2.5,7,limegreen,box
 
 #Telecom :
 
 S-band antenna,0.049,20,25,0.1,7,7,0.34,dodgerblue,box
 X-band antenna,0.020,27,25,0.1,4,6,0.18,darkorange,box
-X-band transmitter,0.270,1.2,25,20,2.33,9.03,9.6,salmon,box
-S-band transceiver,0.217,8,24,10,9.9,2.5,9.6,green,box
-Transponder,2.550,23,23,13,12.7,12.7,10.16,darkslateblue,box
+X-band transmitter,0.270,1.2,25,30,2.33,9.03,9.6,salmon,box
+S-band transceiver,0.217,8,24,30,9.9,2.5,9.6,green,box
+Transponder,2.550,23,6.5,15,12.7,12.7,10.16,darkslateblue,box
 

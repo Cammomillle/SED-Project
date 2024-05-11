@@ -95,16 +95,16 @@ class pannels():
         self.tickness=tickness
         self.col=color
         z_size=0.5*2/3
-        z_cool=0
+        z_cool=0.5*1/3
         P1=[x_size/2,0,z_cool+z_size/2]
         P2=[x_size/2,y_size,z_cool+z_size/2]
         P3=[0,y_size/2,z_cool+z_size/2]
         P4=[x_size,y_size/2,z_cool+z_size/2]
         if("{0}".format(is_deployed)=="True"):
-            P1=[x_size/2,-self.number_of_hinges*z_size/2,z_size]
-            P2=[x_size/2,y_size+self.number_of_hinges*z_size/2,z_size]
-            P3=[-self.number_of_hinges*z_size/2,y_size/2,z_size]
-            P4=[x_size+self.number_of_hinges*z_size/2,y_size/2,z_size]
+            P1=[x_size/2,-self.number_of_hinges*z_size/2,z_cool+z_size]
+            P2=[x_size/2,y_size+self.number_of_hinges*z_size/2,z_cool+z_size]
+            P3=[-self.number_of_hinges*z_size/2,y_size/2,z_cool+z_size]
+            P4=[x_size+self.number_of_hinges*z_size/2,y_size/2,z_cool+z_size]
         S1=x_size*z_size
         S2=x_size*z_size
         S3=y_size*z_size
@@ -299,9 +299,9 @@ fact=1
 x_lims=[-fact*x_size+x_size/2,fact*x_size+x_size/2]
 y_lims=[-fact*y_size+y_size/2,fact*y_size+y_size/2]
 z_lims=[0,2*z_size]
-"""x_lims=[0,x_size]
+x_lims=[0,x_size]
 y_lims=[0,y_size]
-z_lims=[0,z_size]"""
+z_lims=[0,z_size]
 fig = plt.figure(figsize=plt.figaspect(0.5))
 ax1 = fig.add_subplot(1, 2, 1, projection='3d')
 ax2 = fig.add_subplot(1, 2, 2, projection='3d')
@@ -311,9 +311,9 @@ ax2.view_init(90,-90,0)
 g1=grid(fig,ax=[ax1,ax2],x_size=x_size,y_size=y_size,z_size=z_size,x_lims=x_lims,y_lims=y_lims,z_lims=z_lims,m_approx=23.576)
 g1.add_objects_from_txt("./data/components.txt")
 handles=g1.plot()
-plt.legend(loc='upper center', bbox_to_anchor=(0, 1.4),ncol=4, fancybox=True, shadow=True,fontsize=13,handles=handles)
+plt.legend(loc='upper center', bbox_to_anchor=(0, 1.2),ncol=4, fancybox=True, shadow=True,fontsize=13,handles=handles)
 g1.define_structure(x_size,y_size,z_size)
-plt.savefig("mecha_design_solar_pan.svg",bbox_inches='tight')
+plt.savefig("coucou.svg",bbox_inches='tight')
 print("Inertia matrix J \n",g1.inertia_matrix(),"m^2.kg")
 print("CG",g1.center_of_mass())
 print("Approx inertia   \n",g1.approx_inertia(),"m^2.kg")
