@@ -6,7 +6,7 @@
 #Orbit and Power :
 
 Battery,2,15,20,46,6.7,6.7,6.7,red,box
-Solar,Pannels,2.8,[XZ1 XZ2 YZ1 YZ2],1,2,midnightblue,True,/,pannels     # It's 2.8 kg per m^2 installed !
+Solar,Pannels,2.8,[XZ1 XZ2 YZ1 YZ2],1,2,midnightblue,False,/,pannels     # It's 2.8 kg per m^2 installed !
 Thruster and nozzle,0.04,17,20,6,2.8,19.5,2.8,grey,box
 Thruster nozzle,0.025,17,15,3,5,1.65,0,grey,cylinder
 Fuel tanks,3,15,6,35,30,8,10,black,box
@@ -32,12 +32,12 @@ Magnetometers,0.085,9,0.9,5,4.3,1.7,9.9,blue,box
 
 #Actuators
 
-Magnetorquers,0.060,6,1,25,13.2,1.35,1.35,cyan,box
-Magnetorquers,0.060,10,27,25,13.2,1.35,1.35,cyan,box
-Reaction wheels,0.330,13,15,25,2.5,7,7,limegreen,box
-Reaction wheels,0.330,17,15,25,2.5,7,7,limegreen,box
-Reaction wheels,0.330,15,10,25,7,2.5,7,limegreen,box
-Reaction wheels,0.330,15,20,25,7,2.5,7,limegreen,box
+Magnetorquers,0.360,6,1,25,12,1.30,1.50,cyan,box
+Magnetorquers,0.360,10,27,25,12,1.30,1.50,cyan,box
+Reaction wheels,0.950,13,15,25,3.8,11,11,limegreen,box
+Reaction wheels,0.950,17,15,25,3.8,11,11,limegreen,box
+Reaction wheels,0.950,15,7.5,25,11,3.8,11,limegreen,box
+Reaction wheels,0.950,15,22.5,25,11,3.8,11,limegreen,box
 
 #Telecom :
 
